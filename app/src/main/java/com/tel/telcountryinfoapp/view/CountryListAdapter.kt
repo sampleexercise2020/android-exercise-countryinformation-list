@@ -39,7 +39,7 @@ class CountryListAdapter(val countrysList: ArrayList<CountryInformationData>) : 
     //Binding View to CountryViewHolder based on element of list index
     override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
         println(countrysList)
-        holder.view.title.text = countrysList[position].countryInfoTitle;
+        holder.view.title.text = countrysList[position].countryInfoTitle
         holder.view.desc.text = countrysList[position].countryInfoDesc
 
         holder.view.imageView.loadImage(countrysList[position].imageUrl, getProgressDrawable(holder.view.imageView.context))

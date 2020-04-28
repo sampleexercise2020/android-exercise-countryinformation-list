@@ -1,8 +1,8 @@
 package com.tel.telcountryinfoapp.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tel.telcountryinfoapp.di.DaggerViewModelComponent
 import com.tel.telcountryinfoapp.model.CountryInformation
 import com.tel.telcountryinfoapp.model.CountryInformationData
 import com.tel.telcountryinfoapp.model.CountriesApiService
@@ -10,6 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 /**
  * Author:    Veena
@@ -20,13 +21,24 @@ import io.reactivex.schedulers.Schedulers
 
 class ListViewModel: ViewModel() {
 
-    private val countrysService = CountriesApiService()
+//    constructor(test:Boolean=true):this(application = Application()){
+//        injected = true
+//    }
+
+    @Inject
+    lateinit var countrysService : CountriesApiService
     private val disposable = CompositeDisposable()
 
     val countrys = MutableLiveData<CountryInformation>()
     val countrysData = MutableLiveData<List<CountryInformationData>>()
     val countrysLoadError = MutableLiveData<Boolean>()
     val loading = MutableLiveData<Boolean>()
+
+    private var injected = false
+
+    init {
+        DaggerViewModelComponent.create().inject(this)
+    }
 
     fun refresh(){
         fetchFromRemote()

@@ -58,7 +58,7 @@ class ListFragment : Fragment() {
         observeViewModel()
     }
 
-    fun observeViewModel(){
+    private fun observeViewModel(){
 
         viewModel.countrys.observe(this, Observer { countrys->
             countrys?.let {

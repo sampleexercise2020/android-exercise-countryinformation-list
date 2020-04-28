@@ -1,31 +1,27 @@
 package com.tel.telcountryinfoapp.model
 
+import com.tel.telcountryinfoapp.di.DaggerApiComponent
 import io.reactivex.Single
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 /**
  * Author:    Veena
  * Created:   18.04.2020
  *
- * Create Retrofit Builder
+ * This class used to get backend data by using dagger
  **/
 
 
 class CountriesApiService {
 
-    private val BASE_URL = "https://dl.dropboxusercontent.com"
+    @Inject
+    lateinit var api:CountriesApi
 
-    private val api = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .build()
-        .create(CountriesApi::class.java)
+    init {
+        DaggerApiComponent.create().inject(this)
+    }
 
     fun getCountrys(): Single<CountryInformation> {
         return api.getCountrys()
     }
-
 }
